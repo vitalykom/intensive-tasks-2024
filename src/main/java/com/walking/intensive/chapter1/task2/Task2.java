@@ -45,37 +45,38 @@ public class Task2 {
             return "Некорректные входные данные";
         }
 
-        int numberApartment = floorAmount * entranceAmount * 4;
-
-        if (numberApartment < flatNumber) {
+        if (floorAmount * entranceAmount * 4 < flatNumber) {
             return "Такой квартиры не существует";
         }
+
         int floore = 0;
         int entrance = 0;
-        int maxNumOfFloor = 0;
 
-        for (int i = 1; i <= entranceAmount; i++) {
-            if (floorAmount * 4 * i >= flatNumber) {
-                entrance = i;
-                break;
-            }
-
+        if (flatNumber % (floorAmount * 4) == 0) {
+            entrance = flatNumber / (floorAmount * 4);
+        } else {
+            entrance = flatNumber / (floorAmount * 4) + 1;
         }
 
-        for (int i = 1; i <= floorAmount; i++) {
-            maxNumOfFloor = floorAmount * 4 * (entrance - 1) + (4 * i);
-            if ( maxNumOfFloor >= flatNumber) {
-                floore = i;
-                break;
+        if (flatNumber / 4 >= floorAmount) {
+            if (flatNumber % 4 == 0) {
+                floore = flatNumber / 4 - (entrance - 1) * floorAmount;
+            } else {
+                floore = (flatNumber / 4 + 1) - (entrance - 1) * floorAmount;
             }
-
+        } else {
+            floore = flatNumber / 4 + 1;
         }
 
-        switch (maxNumOfFloor - flatNumber){
-            case 0: return flatNumber + " кв - " + entrance + " подъезд, " + floore + " этаж, справа от лифта, вправо";
-            case 1: return flatNumber + " кв - " + entrance + " подъезд, " + floore + " этаж, справа от лифта, влево";
-            case 2: return flatNumber + " кв - " + entrance + " подъезд, " + floore + " этаж, слева от лифта, вправо";
-            case 3: return flatNumber + " кв - " + entrance + " подъезд, " + floore + " этаж, слева от лифта, влево";
+        switch (flatNumber % 4) {
+            case 3:
+                return flatNumber + " кв - " + entrance + " подъезд, " + floore + " этаж, справа от лифта, влево";
+            case 2:
+                return flatNumber + " кв - " + entrance + " подъезд, " + floore + " этаж, слева от лифта, вправо";
+            case 1:
+                return flatNumber + " кв - " + entrance + " подъезд, " + floore + " этаж, слева от лифта, влево";
+            case 0:
+                return flatNumber + " кв - " + entrance + " подъезд, " + floore + " этаж, справа от лифта, вправо";
         }
         return "";
     }
