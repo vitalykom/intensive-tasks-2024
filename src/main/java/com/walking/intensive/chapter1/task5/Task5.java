@@ -12,11 +12,19 @@ import java.util.Arrays;
  */
 public class Task5 {
     public static void main(String[] args) {
-        Arrays.stream(getHeights(3, 4, 5)).forEach(System.out::println);
-        Arrays.stream(getMedians(5, 3, 4)).forEach(System.out::println);
-        Arrays.stream(getBisectors(5, 3, 4)).forEach(System.out::println);
+//        Arrays.stream(getHeights(3, 4, 5)).forEach(System.out::println);
+        Arrays.stream(getMedians(5, 4, 3)).forEach(System.out::println);
+//        Arrays.stream(getBisectors(3, 8, 6)).forEach(System.out::println);
         Arrays.stream(getAngles(5, 3, 4)).forEach(System.out::println);
 
+    }
+
+    static boolean validation(double a, double b, double c) {
+        return a < 0 || b < 0 || c < 0 || a > b + c || b > c + a || c > a + b;
+    }
+
+    static double poluperimetr(double a, double b, double c) {
+        return (a + b + c) / 2;
     }
 
     /**
@@ -29,11 +37,11 @@ public class Task5 {
      * <p>Если входные данные некорректны - метод должен возвращать -1.
      */
     static double getAreaByHeron(double a, double b, double c) {
-        if (a < 0 || b < 0 || c < 0 || a > b + c || b > c + a || c > a + b) {
+        if (validation(a, b, c)) {
             return -1;
         }
-        double p = (a + b + c) / 2;
-        return Math.sqrt(p * (p - a) * (p - b) * (p - c));
+        double poluperimetr = poluperimetr(a, b, c);
+        return Math.sqrt(poluperimetr * (poluperimetr - a) * (poluperimetr - b) * (poluperimetr - c));
     }
 
     /**
@@ -48,7 +56,18 @@ public class Task5 {
         if (s == -1) {
             return new double[0];
         }
-        return Arrays.stream(new double[]{2 * s / a, 2 * s / b, 2 * s / c}).sorted().toArray();
+        double[] data = {2 * s / a, 2 * s / b, 2 * s / c};
+        double temp;
+        for (int m = 0; m < data.length - 1; m++) {
+            for (int i = 0; i < data.length - 1; i++) {
+                if (data[i] > data[i + 1]) {
+                    temp = data[i + 1];
+                    data[i + 1] = data[i];
+                    data[i] = temp;
+                }
+            }
+        }
+        return data;
     }
 
     /**
@@ -59,14 +78,25 @@ public class Task5 {
      * <p>Если входные данные некорректны - метод должен возвращать пустой массив нулевой длины.
      */
     static double[] getMedians(double a, double b, double c) {
-        if (a < 0 || b < 0 || c < 0 || a > b + c || b > c + a || c > a + b) {
+        if (validation(a, b, c)) {
             return new double[0];
         }
-        return Arrays.stream(new double[]{
+        double[] data = {
                 Math.sqrt(2 * Math.pow(a, 2) + 2 * Math.pow(b, 2) - Math.pow(c, 2)) / 2,
                 Math.sqrt(2 * Math.pow(a, 2) + 2 * Math.pow(c, 2) - Math.pow(b, 2)) / 2,
                 Math.sqrt(2 * Math.pow(b, 2) + 2 * Math.pow(c, 2) - Math.pow(a, 2)) / 2
-        }).sorted().toArray();
+        };
+        double temp;
+        for (int m = 0; m < data.length - 1; m++) {
+            for (int i = 0; i < data.length - 1; i++) {
+                if (data[i] > data[i + 1]) {
+                    temp = data[i + 1];
+                    data[i + 1] = data[i];
+                    data[i] = temp;
+                }
+            }
+        }
+        return data;
     }
 
     /**
@@ -77,16 +107,27 @@ public class Task5 {
      * <p>Если входные данные некорректны - метод должен возвращать пустой массив нулевой длины.
      */
     static double[] getBisectors(double a, double b, double c) {
-        if (a < 0 || b < 0 || c < 0 || a > b + c || b > c + a || c > a + b) {
+        if (validation(a, b, c)) {
             return new double[0];
         }
-        double p = (a + b + c) / 2;
+        double poluperimetr = poluperimetr(a, b, c);
 
-        return Arrays.stream(new double[]{
-                2 * Math.sqrt(a * c * p * (p - b)) / (a + c),
-                2 * Math.sqrt(a * b * p * (p - c)) / (a + b),
-                2 * Math.sqrt(b * c * p * (p - a)) / (b + c)
-        }).sorted().toArray();
+        double[] data = {
+                2 * Math.sqrt(a * c * poluperimetr * (poluperimetr - b)) / (a + c),
+                2 * Math.sqrt(a * b * poluperimetr * (poluperimetr - c)) / (a + b),
+                2 * Math.sqrt(b * c * poluperimetr * (poluperimetr - a)) / (b + c)
+        };
+        double temp;
+        for (int m = 0; m < data.length - 1; m++) {
+            for (int i = 0; i < data.length - 1; i++) {
+                if (data[i] > data[i + 1]) {
+                    temp = data[i + 1];
+                    data[i + 1] = data[i];
+                    data[i] = temp;
+                }
+            }
+        }
+         return data;
     }
 
     /**
@@ -97,14 +138,25 @@ public class Task5 {
      * <p>Если входные данные некорректны - метод должен возвращать пустой массив нулевой длины.
      */
     static double[] getAngles(double a, double b, double c) {
-        if (a < 0 || b < 0 || c < 0 || a > b + c || b > c + a || c > a + b) {
+        if (validation(a, b, c)) {
             return new double[0];
         }
-        return Arrays.stream(new double[]{
-                Math.acos((Math.pow(a, 2) + Math.pow(b, 2) - Math.pow(c, 2)) / (2 * a * b)) * 180 / Math.PI,
-                Math.acos((Math.pow(a, 2) + Math.pow(c, 2) - Math.pow(b, 2)) / (2 * a * c)) * 180 / Math.PI,
-                Math.acos((Math.pow(b, 2) + Math.pow(c, 2) - Math.pow(a, 2)) / (2 * b * c)) * 180 / Math.PI
-        }).sorted().toArray();
+        double[] data = {
+                        Math.acos((Math.pow(a, 2) + Math.pow(b, 2) - Math.pow(c, 2)) / (2 * a * b)) * 180 / Math.PI,
+                        Math.acos((Math.pow(a, 2) + Math.pow(c, 2) - Math.pow(b, 2)) / (2 * a * c)) * 180 / Math.PI,
+                        Math.acos((Math.pow(b, 2) + Math.pow(c, 2) - Math.pow(a, 2)) / (2 * b * c)) * 180 / Math.PI
+                };
+        double temp;
+        for (int m = 0; m < data.length - 1; m++) {
+            for (int i = 0; i < data.length - 1; i++) {
+                if (data[i] > data[i + 1]) {
+                    temp = data[i + 1];
+                    data[i + 1] = data[i];
+                    data[i] = temp;
+                }
+            }
+        }
+        return data;
     }
 
     /**
@@ -119,7 +171,8 @@ public class Task5 {
         if (s == -1) {
             return -1;
         }
-        return s / ((a + b + c) / 2);
+        double poluperimetr = poluperimetr(a, b, c);
+        return s / poluperimetr;
     }
 
     /**
