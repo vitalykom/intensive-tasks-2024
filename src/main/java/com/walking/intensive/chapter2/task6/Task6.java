@@ -11,14 +11,15 @@ import java.util.ArrayList;
 public class Task6 {
     public static void main(String[] args) {
 //        System.out.println(getLcm(3780, 250));
-        System.out.println(getGcd(18, 81));
-        System.out.println(getGcdByEuclideanAlgorithm(81, 18));
+//        System.out.println(getGcd(18, 81));
+        System.out.println(getGcdByEuclideanAlgorithm(6, 8));
     }
 
 
     static boolean getValidate(int m, int n) {
         return m < 1 || n < 1;
     }
+
     /**
      * Реализуйте метод, который будет возвращать НОК для чисел, переданных параметрами.
      *
@@ -92,24 +93,14 @@ public class Task6 {
         if (getValidate(m, n)) {
             return -1;
         }
+        int tempMax = Math.max(m, n);
+        int tempMin = Math.min(m, n);
         if (m != n) {
-            if (m > n) {
-                if (m % n == 0) {
-                    return n;
-                }
-                if (m % n > 0) {
-                    return getGcdByEuclideanAlgorithm(m % n, n);
-                }
+            if (tempMax % tempMin == 0) {
+                return tempMin;
             }
-            if (m < n) {
-                if (n % m == 0) {
-                    return m;
-                }
-                if (n % m > 0) {
-                    return getGcdByEuclideanAlgorithm(n % m, n);
-                }
-            }
+            return getGcdByEuclideanAlgorithm(tempMax%tempMin, tempMin);
         }
-        return n;
+        return tempMin;
     }
 }
