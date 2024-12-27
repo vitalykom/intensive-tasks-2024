@@ -31,10 +31,9 @@ public class Task6 {
         if (getValidate(m, n)) {
             return -1;
         }
-        int count = Math.max(m, n);
 
         ArrayList<Integer> multiplier = new ArrayList<>();
-        for (int i = 2; i <= count; i++) {
+        for (int i = 2; i <= Math.max(m, n); i++) {
             while (m % i == 0 || n % i == 0) {
                 if (n % i == 0 && m % i == 0) {
                     multiplier.add(i);
@@ -70,15 +69,12 @@ public class Task6 {
         if (getValidate(m, n)) {
             return -1;
         }
-        int count = Math.max(m, n);
-        int result = 1;
-        for (int i = count; i >= 2; i--) {
+        for (int i = Math.max(m, n); i >= 2; i--) {
             if (m % i == 0 && n % i == 0) {
-                result = i;
-                break;
+                return i;
             }
         }
-        return result;
+        return 1;
     }
 
     /**
@@ -95,12 +91,12 @@ public class Task6 {
         }
         int tempMax = Math.max(m, n);
         int tempMin = Math.min(m, n);
-        if (m != n) {
-            if (tempMax % tempMin == 0) {
-                return tempMin;
-            }
-            return getGcdByEuclideanAlgorithm(tempMax%tempMin, tempMin);
+        if (m == n) {
+            return tempMin;
         }
-        return tempMin;
+        if (tempMax % tempMin == 0) {
+            return tempMin;
+        }
+        return getGcdByEuclideanAlgorithm(tempMax % tempMin, tempMin);
     }
 }
