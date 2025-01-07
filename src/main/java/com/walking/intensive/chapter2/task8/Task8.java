@@ -1,5 +1,7 @@
 package com.walking.intensive.chapter2.task8;
 
+import java.util.Arrays;
+
 /**
  * Добираясь в школу на трамвае Вова проверяет, является ли купленный билет счастливым.
  * Если является, то нужно загадать желание и съесть билетик.
@@ -20,11 +22,30 @@ package com.walking.intensive.chapter2.task8;
  */
 public class Task8 {
     public static void main(String[] args) {
-//        Для собственных проверок можете делать любые изменения в этом методе
+        System.out.println(getHappyTicketChance());
     }
 
     static double getHappyTicketChance() {
-        // Ваш код
-        return 0.0;
+        int chance = 0;
+        for (int i = 999999; i >= 0; i--) {
+            int leftSumm = getSumm(i/1000);
+            int rightSumm = getSumm(i%1000);
+            if (leftSumm == rightSumm) {
+                chance++;
+            }
+        }
+        return (double) chance /1000000d;
+    }
+
+    static int getSumm (int number){
+        if (number == 0) {
+            return 0;
+        }
+        int summ = 0;
+        while (number > 0) {
+            summ += number % 10;
+            number /= 10;
+        }
+        return summ;
     }
 }
