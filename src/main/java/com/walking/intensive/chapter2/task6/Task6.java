@@ -15,7 +15,6 @@ public class Task6 {
         System.out.println(getGcdByEuclideanAlgorithm(6, 8));
     }
 
-
     static boolean getValidate(int m, int n) {
         return m < 1 || n < 1;
     }
