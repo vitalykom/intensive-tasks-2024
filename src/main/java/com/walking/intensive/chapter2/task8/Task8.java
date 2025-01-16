@@ -28,16 +28,16 @@ public class Task8 {
     static double getHappyTicketChance() {
         int chance = 0;
         for (int i = 999999; i >= 0; i--) {
-            int leftSumm = getSumm(i/1000);
-            int rightSumm = getSumm(i%1000);
+            int leftSumm = getSumm(i / 1000);
+            int rightSumm = getSumm(i % 1000);
             if (leftSumm == rightSumm) {
                 chance++;
             }
         }
-        return (double) chance /1000000d;
+        return (double) chance / 1000000;
     }
 
-    static int getSumm (int number){
+    static int getSumm(int number) {
         if (number == 0) {
             return 0;
         }
