@@ -51,11 +51,55 @@ package com.walking.intensive.chapter2.task9;
  */
 public class Task9 {
     public static void main(String[] args) {
-//        Для собственных проверок можете делать любые изменения в этом методе
+        System.out.println(getPascalTriangle(22));
     }
 
     static String getPascalTriangle(int n) {
-        // Ваш код
-        return null;
+        if (n <= 0 || n > 100) {
+            return "";
+        }
+        int[][] matrixLengthCount = new int[n + 1][2];
+        int[][] matrix = new int[n][n];
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < n; i++) {
+            int j = 0;
+            matrixLengthCount[i][0] = builder.length();
+            while (i >= j) {
+                if (j == 0 || i == j) {
+                    matrix[i][j] = 1;
+                } else {
+                    matrix[i][j] = matrix[i - 1][j - 1] + matrix[i - 1][j];
+                }
+                builder.append(matrix[i][j]).append(" ");
+                j++;
+            }
+            builder.deleteCharAt(builder.length() - 1);
+            if (i < n - 1) {
+                builder.append('\n');
+            }
+        }
+
+        matrixLengthCount[n][0] = builder.length();
+
+        int spaceCount = 0;
+
+        for (int k = n; k >= 1; k--) {
+            if (k == 1) {
+                spaceCount++;
+            } else {
+                int temp = ((matrixLengthCount[k][0] - matrixLengthCount[k - 1][0]) - (matrixLengthCount[k - 1][0] - matrixLengthCount[k - 2][0])) / 2;
+                spaceCount += temp;
+                matrixLengthCount[k - 1][1] = spaceCount;
+            }
+
+        }
+
+        for (int i = n - 1; i >= 1; i--) {
+            for (int j = matrixLengthCount[i][1]; j >= 1; j--) {
+                builder.insert(matrixLengthCount[i - 1][0], ' ');
+            }
+        }
+        return builder.toString();
     }
 }
