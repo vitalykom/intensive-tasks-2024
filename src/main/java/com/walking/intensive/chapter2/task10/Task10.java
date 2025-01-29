@@ -11,11 +11,14 @@ package com.walking.intensive.chapter2.task10;
  */
 public class Task10 {
     public static void main(String[] args) {
-//        Для собственных проверок можете делать любые изменения в этом методе
+        System.out.println(isPalindrome(null));
     }
 
     static boolean isPalindrome(String inputString) {
-        // Ваш код
-        return false;
+        if (inputString == null || inputString.length() < 2) {
+            return false;
+        }
+        StringBuilder palindrom = new StringBuilder(inputString.replaceAll("[^a-zA-ZА-Яа-я]", "").toLowerCase());
+        return palindrom.toString().equals(palindrom.reverse().toString());
     }
 }
