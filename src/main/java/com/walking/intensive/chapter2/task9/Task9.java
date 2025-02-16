@@ -51,55 +51,44 @@ package com.walking.intensive.chapter2.task9;
  */
 public class Task9 {
     public static void main(String[] args) {
-        System.out.println(getPascalTriangle(22));
+        System.out.println(getPascalTriangle(18));
     }
 
-    static String getPascalTriangle(int n) {
-        if (n <= 0 || n > 100) {
+    public static String getPascalTriangle(int rows) {
+        if (rows <= 0 || rows > 35) {
             return "";
         }
-        int[][] matrixLengthCount = new int[n + 1][2];
-        int[][] matrix = new int[n][n];
-        StringBuilder builder = new StringBuilder();
+        StringBuilder temp = new StringBuilder();
+        StringBuilder result = new StringBuilder();
+        int maxLength;
 
-        for (int i = 0; i < n; i++) {
-            int j = 0;
-            matrixLengthCount[i][0] = builder.length();
-            while (i >= j) {
-                if (j == 0 || i == j) {
-                    matrix[i][j] = 1;
-                } else {
-                    matrix[i][j] = matrix[i - 1][j - 1] + matrix[i - 1][j];
-                }
-                builder.append(matrix[i][j]).append(" ");
-                j++;
-            }
-            builder.deleteCharAt(builder.length() - 1);
-            if (i < n - 1) {
-                builder.append('\n');
-            }
+        for (int j = 0; j < rows; j++) {
+            temp.append(getNum(rows - 1, j)).append('\n');
         }
 
-        matrixLengthCount[n][0] = builder.length();
+        maxLength = temp.length() - 1;
 
-        int spaceCount = 0;
-
-        for (int k = n; k >= 1; k--) {
-            if (k == 1) {
-                spaceCount++;
-            } else {
-                int temp = ((matrixLengthCount[k][0] - matrixLengthCount[k - 1][0]) - (matrixLengthCount[k - 1][0] - matrixLengthCount[k - 2][0])) / 2;
-                spaceCount += temp;
-                matrixLengthCount[k - 1][1] = spaceCount;
+        for (int i = 0; i < rows; i++) {
+            temp.delete(0, temp.length());
+            for (int j = 0; j <= i; j++) {
+                temp.append(getNum(i, j)).append(" ");
             }
-
+            temp.deleteCharAt(temp.length() - 1);
+            result.append(" ".repeat(Math.max(0, (maxLength - temp.length()) / 2))).append(temp).append('\n');
         }
+        return result.toString();
+    }
 
-        for (int i = n - 1; i >= 1; i--) {
-            for (int j = matrixLengthCount[i][1]; j >= 1; j--) {
-                builder.insert(matrixLengthCount[i - 1][0], ' ');
-            }
+    static int getNum(int rows, int cols) {
+        if (rows < 0 || cols < 0) {
+            return 0;
         }
-        return builder.toString();
+        if (cols == 0 || rows == cols) {
+            return 1;
+        }
+        if ((cols == 1) || (cols == (rows - 1))) {
+            return rows;
+        }
+        return getNum(rows - 1, cols - 1) + getNum(rows - 1, cols);
     }
 }
