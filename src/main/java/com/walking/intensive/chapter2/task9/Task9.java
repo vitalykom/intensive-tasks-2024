@@ -60,21 +60,23 @@ public class Task9 {
         }
         StringBuilder temp = new StringBuilder();
         StringBuilder result = new StringBuilder();
-        int maxLength;
 
         for (int j = 0; j < rows; j++) {
             temp.append(getNum(rows - 1, j)).append('\n');
         }
 
-        maxLength = temp.length() - 1;
+        int maxLength = temp.length() - 1;
 
         for (int i = 0; i < rows; i++) {
-            temp.delete(0, temp.length());
+            StringBuilder row = new StringBuilder();
             for (int j = 0; j <= i; j++) {
-                temp.append(getNum(i, j)).append(" ");
+                row.append(getNum(i, j)).append(" ");
             }
-            temp.deleteCharAt(temp.length() - 1);
-            result.append(" ".repeat(Math.max(0, (maxLength - temp.length()) / 2))).append(temp).append('\n');
+            row.deleteCharAt(row.length() - 1);
+            int shift = Math.max(0,(maxLength - row.length())/2);
+            result.append(" ".repeat(shift))
+                    .append(row)
+                    .append('\n');
         }
         return result.toString();
     }
