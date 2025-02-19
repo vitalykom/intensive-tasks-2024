@@ -11,14 +11,35 @@ package com.walking.intensive.chapter2.task10;
  */
 public class Task10 {
     public static void main(String[] args) {
-        System.out.println(isPalindrome(null));
+        System.out.println(isPalindrome("Муза! Ранясь шилом опыта, ты помолишься на разум."));
     }
 
     static boolean isPalindrome(String inputString) {
         if (inputString == null || inputString.length() < 2) {
             return false;
         }
-        StringBuilder palindrom = new StringBuilder(inputString.replaceAll("[^a-zA-ZА-Яа-я]", "").toLowerCase());
-        return palindrom.toString().equals(palindrom.reverse().toString());
+
+        StringBuilder palindrome = new StringBuilder();
+        for (int i = 0; i < inputString.length(); i++) {
+            if (!deleteSymbol(inputString.charAt(i))) {
+                palindrome.append(inputString.charAt(i));
+            }
+        }
+        int j = palindrome.length() - 1;
+        for (int i = 0; i < palindrome.length(); i++) {
+            if (!String.valueOf(palindrome.charAt(j)).equalsIgnoreCase(String.valueOf(palindrome.charAt(i)))) {
+                return false;
+            }
+            j--;
+        }
+        return true;
+    }
+
+    static boolean deleteSymbol(Character character) {
+        String symbol = " ,.;:!?-_";
+        if (symbol.contains(character.toString())) {
+            return true;
+        }
+        return false;
     }
 }
