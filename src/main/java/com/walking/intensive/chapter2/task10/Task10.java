@@ -26,7 +26,7 @@ public class Task10 {
             }
         }
         int j = palindrome.length() - 1;
-        for (int i = 0; i < palindrome.length(); i++) {
+        for (int i = 0; i <= j; i++) {
             if (!String.valueOf(palindrome.charAt(j)).equalsIgnoreCase(String.valueOf(palindrome.charAt(i)))) {
                 return false;
             }
