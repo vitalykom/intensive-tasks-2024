@@ -1,5 +1,8 @@
 package com.walking.intensive.chapter3.task12;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 /**
  * Девочка Света очень любит играть в мячики. Она поставила в ряд корзинки и в некоторые положила по 1 мячику.
  * За 1 раз она может переложить 1 мячик в соседнюю корзинку. В 1 корзинке может поместиться много мячиков.
@@ -40,11 +43,27 @@ package com.walking.intensive.chapter3.task12;
  */
 public class Task12 {
     public static void main(String[] args) {
-//        Для собственных проверок можете делать любые изменения в этом методе
+        Arrays.stream(getMovementsNumber("235")).forEach(System.out::println);
     }
 
     static int[] getMovementsNumber(String baskets) {
-        // Ваш код
-        return new int[]{};
+        if (baskets.equals("")) {
+            return new int[0];
+        }
+
+        int[] basketsArr = new int[baskets.length()];
+        for (int i = 0; i < baskets.length(); i++) {
+            if (baskets.charAt(i) > '9' || baskets.charAt(i) < '0') {
+                return new int[0];
+            }
+            basketsArr[i] = baskets.charAt(i) - '0';
+        }
+        int[] result = new int[basketsArr.length];
+        for (int i = 0; i < basketsArr.length; i++) {
+            for (int j = 0; j < basketsArr.length; j++) {
+                result[i] += basketsArr[j] * Math.abs(i - j);
+            }
+        }
+        return result;
     }
 }
